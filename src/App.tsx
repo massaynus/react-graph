@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BaseNode from './lib/nodes/BaseNode';
+import { SerializableNode } from './lib/nodes/BaseNode';
 import { CommunicationNode } from "./lib/nodes/BaseNode";
 import { CouponAssignmentNode } from "./lib/nodes/BaseNode";
 import { PurchaseNode } from "./lib/nodes/BaseNode";
@@ -17,20 +17,20 @@ function App() {
 
   function onClickHandler(): void {
     const purchaseNode = new PurchaseNode("purr1", 98.8)
-    const serializedPurchaseNode = BaseNode.serialize(purchaseNode)
+    const serializedPurchaseNode = SerializableNode.serialize(purchaseNode)
     dispatch(graphActions.setRootNode(serializedPurchaseNode))
 
     dispatch(graphActions.addNode({
       parent: serializedPurchaseNode, child:
-        BaseNode.serialize(new CouponAssignmentNode("coup1", "AWESOME2024"))
+        SerializableNode.serialize(new CouponAssignmentNode("coup1", "AWESOME2024"))
     }))
     dispatch(graphActions.addNode({
       parent: serializedPurchaseNode, child:
-        BaseNode.serialize(new CouponAssignmentNode("coup2", "BLACKFRI00"))
+        SerializableNode.serialize(new CouponAssignmentNode("coup2", "BLACKFRI00"))
     }))
     dispatch(graphActions.addNode({
       parent: serializedPurchaseNode, child:
-        BaseNode.serialize(new CommunicationNode("coup2", "example@email.com"))
+        SerializableNode.serialize(new CommunicationNode("coup2", "example@email.com"))
     }))
   }
 

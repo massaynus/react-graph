@@ -1,20 +1,20 @@
+import { NodeType } from "./NodeTypes"
 import { SerializedNode } from "./SerializedNode"
 
 export default abstract class BaseNode<TNodeData = unknown> {
     readonly nodeId: string
-    readonly nodeType: string
+    readonly nodeType: NodeType
+    readonly data: TNodeData
+    readonly children: BaseNode[]
 
-    protected allowedChildrenTypes: string[]
-
-    protected readonly data: TNodeData
-    protected readonly children: BaseNode[]
+    protected allowedChildrenTypes: NodeType[]
 
     constructor(nodeId: string, data: TNodeData) {
         this.nodeId = nodeId
-        this.nodeType = this.constructor.name
+        this.nodeType = NodeType[this.constructor.name as keyof typeof NodeType]
         this.data = data
         this.children = []
-        this.allowedChildrenTypes = [BaseNode.prototype.constructor.name]
+        this.allowedChildrenTypes = []
     }
 
     public static getClassName(): string {
@@ -28,7 +28,7 @@ export default abstract class BaseNode<TNodeData = unknown> {
     }
 
     public addChild(child: BaseNode): void {
-        const childClassName = child.constructor.name
+        const childClassName = child.nodeType
 
         if (!this.allowedChildrenTypes.includes(childClassName)) {
             throw new Error(`cannot add node of unsupported type ${childClassName} to ${this.constructor.name}`)
@@ -37,12 +37,16 @@ export default abstract class BaseNode<TNodeData = unknown> {
         this.children.push(child)
     }
 
-    public getChildren(): BaseNode[] {
+    public get getChildren(): BaseNode[] {
         return [...this.children]
     }
 
+    public get getAllowedChildren(): NodeType[] {
+        return [...this.allowedChildrenTypes]
+    }
+
     public toString(): string {
-        return JSON.stringify(BaseNode.serialize(this), null, 2)
+        return JSON.stringify(this, null, 2)
     }
 
     public static buildNodesAndEdges(parent: BaseNode): { nodes: BaseNode[], edges: { from: string, to: string }[] } {
@@ -69,18 +73,24 @@ export default abstract class BaseNode<TNodeData = unknown> {
         return nodes.length === uniqueNodes.size
     }
 
+}
+
+export class SerializableNode<TNodeData = unknown> extends BaseNode<TNodeData> {
     public static serialize<TData>(root: BaseNode<TData>): SerializedNode<TData> {
         return {
             nodeId: root.nodeId,
-            nodeType: root.nodeType,
-            allowedChildrenTypes: root.allowedChildrenTypes,
+            nodeType: root.nodeType.toString(),
+            allowedChildrenTypes: root.getAllowedChildren,
             data: root.data,
             children: root.children.map(child => this.serialize(child))
         }
     }
 
     public static deserialize(root: SerializedNode): BaseNode {
-        const Type = typeMap[root.nodeType]
+        const nodeType: NodeType = NodeType[root.nodeType as keyof typeof NodeType]
+        if (nodeType === undefined) throw new Error("Unsupported node type detected!")
+
+        const Type = typeMap[nodeType]
         const node = new Type(root.nodeId, root.data as any as never)
         root.children.forEach(child => node.addChild(this.deserialize(child)))
 
@@ -88,39 +98,28 @@ export default abstract class BaseNode<TNodeData = unknown> {
     }
 }
 
-export class CouponAssignmentNode extends BaseNode<string> {
-    constructor(nodeId: string, offerId: string) {
-        super(nodeId, offerId);
-        this.allowedChildrenTypes = [];
-    }
+export class CouponAssignmentNode extends SerializableNode<string> {
 }
 
-export class CommunicationNode extends BaseNode<string> {
-    constructor(nodeId: string, email: string) {
-        super(nodeId, email);
-        this.allowedChildrenTypes = [];
-    }
+export class CommunicationNode extends SerializableNode<string> {
 }
 
-export class NoPurchaseNode extends BaseNode<undefined> {
-    constructor(nodeId: string) {
-        super(nodeId, undefined);
-    }
+export class NoPurchaseNode extends SerializableNode<undefined> {
 }
 
-export class PurchaseNode extends BaseNode<number> {
+export class PurchaseNode extends SerializableNode<number> {
     constructor(nodeId: string, price: number) {
         super(nodeId, price);
 
-        this.allowedChildrenTypes = [CommunicationNode.getClassName(), CouponAssignmentNode.getClassName()];
+        this.allowedChildrenTypes.push(...[NodeType.CommunicationNode, NodeType.CouponAssignmentNode]);
     }
 }
 
-export const typeMap = {
-    [CommunicationNode.getClassName()]: CommunicationNode,
-    [CouponAssignmentNode.getClassName()]: CouponAssignmentNode,
-    [NoPurchaseNode.getClassName()]: NoPurchaseNode,
-    [PurchaseNode.getClassName()]: PurchaseNode
+export const typeMap: Record<NodeType, typeof SerializableNode<unknown>> = {
+    [NodeType.CommunicationNode]: CommunicationNode,
+    [NodeType.CouponAssignmentNode]: CouponAssignmentNode,
+    [NodeType.NoPurchaseNode]: NoPurchaseNode,
+    [NodeType.PurchaseNode]: PurchaseNode
 };
 
 
