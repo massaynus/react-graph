@@ -3,13 +3,20 @@ import { NodeType } from './NodeTypes';
 import { SerializedNode } from './SerializedNode';
 
 export class SerializableNode<TNodeData = unknown> extends BaseNode<TNodeData> {
-  public static serialize<TData = unknown>(root: SerializableNode<TData>): SerializedNode<TData> {
+  public static serialize<TData = unknown>(
+    root: SerializableNode<TData>,
+    depth: number = 0,
+    idx: number = 0,
+  ): SerializedNode<TData> {
     return {
+      children: root.children.map((child, idx) => this.serialize(child, depth + 1, idx)),
+
       nodeId: root.nodeId,
       nodeType: root.nodeType.toString(),
       allowedChildrenTypes: root.getAllowedChildren,
       data: root.data,
-      children: root.children.map((child) => this.serialize(child)),
+      depth,
+      idx,
     };
   }
 

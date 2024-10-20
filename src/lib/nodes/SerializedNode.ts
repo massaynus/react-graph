@@ -6,4 +6,7 @@ export interface SerializedNode<TData = unknown> {
 
   data: TData;
   children: SerializedNode[];
+
+  depth: number;
+  idx: number;
 }

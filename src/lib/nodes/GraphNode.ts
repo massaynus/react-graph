@@ -1,9 +1,10 @@
+import { Edge } from '../../redux/graph/slice';
 import { SerializableNode } from './SerializableNode';
 
 export class GraphNode<TNodeData = unknown> extends SerializableNode<TNodeData> {
   public static buildNodesAndEdges(parent: GraphNode): {
     nodes: GraphNode[];
-    edges: { from: string; to: string }[];
+    edges: Edge[];
   } {
     if (parent.children.length === 0) return { nodes: [], edges: [] };
 
@@ -18,7 +19,11 @@ export class GraphNode<TNodeData = unknown> extends SerializableNode<TNodeData> 
       nodes: [...nodesAndEdges.nodes, ...parent.children],
       edges: [
         ...nodesAndEdges.edges,
-        ...parent.children.map((child) => ({ from: parent.nodeId, to: child.nodeId })),
+        ...parent.children.map((child) => ({
+          id: `edge:${parent.nodeId}-${child.nodeId}`,
+          source: parent.nodeId,
+          target: child.nodeId,
+        })),
       ],
     };
   }

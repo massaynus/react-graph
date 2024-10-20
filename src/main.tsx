@@ -6,11 +6,15 @@ import { store } from './redux/store';
 import App from './App';
 
 import './index.css';
+import 'reactflow/dist/style.css';
+import { ReactFlowProvider } from '@xyflow/react';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ReactFlowProvider>
+        <App />
+      </ReactFlowProvider>
     </Provider>
   </React.StrictMode>,
 );

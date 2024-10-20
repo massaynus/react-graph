@@ -6,24 +6,20 @@ import { useAppDispatch, useAppSelector } from './redux/hooks';
 import './App.css';
 import { NodeType } from './lib/nodes/NodeTypes';
 import { GraphNode } from './lib/nodes/GraphNode';
+import { GraphRenderer } from './components';
 
 function App() {
   const dispatch = useAppDispatch();
   const rootNode = useAppSelector(graphSelectors.selectRootNode);
-  const edges = useAppSelector(graphSelectors.selectEdges);
-  const nodes = useAppSelector(graphSelectors.selectNodes);
 
   function onClickHandler(): void {
     const purchaseNode = new GraphNode('purr1', NodeType.PurchaseNode, 98.8);
-    const serializedPurchaseNode = GraphNode.serialize(purchaseNode)
-
+    const serializedPurchaseNode = GraphNode.serialize(purchaseNode);
 
     dispatch(
       graphActions.addNode({
         parent: rootNode,
-        child: GraphNode.serialize(
-          purchaseNode
-        ),
+        child: GraphNode.serialize(purchaseNode),
       }),
     );
     dispatch(
@@ -55,8 +51,9 @@ function App() {
   return (
     <React.Fragment>
       <button onClick={onClickHandler}>Add Sample Nodes</button>
-      <pre>{JSON.stringify(edges, null, 2)}</pre>
-      <pre>{JSON.stringify(nodes, null, 2)}</pre>
+      <GraphRenderer />
+      {/* <pre>{JSON.stringify(edges, null, 2)}</pre>
+      <pre>{JSON.stringify(nodes, null, 2)}</pre> */}
     </React.Fragment>
   );
 }

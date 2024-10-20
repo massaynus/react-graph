@@ -4,16 +4,17 @@ import { SerializedNode } from '../../lib/nodes/SerializedNode';
 import { AppRootState } from '../store';
 import { NodeType } from '../../lib/nodes/NodeTypes';
 import { GraphNode } from '../../lib/nodes/GraphNode';
-import { UIGraphNode } from '../../lib/nodes/UINode';
 
 export interface AddNodePayload {
   parent: SerializedNode;
   child: SerializedNode;
 }
 
+export type UIGraphNode<TData = unknown> = Omit<SerializedNode<TData>, 'children'>;
+
 export interface Edge {
-  from: string;
-  to: string;
+  source: string;
+  target: string;
 }
 
 export interface IGraphSlice {
@@ -23,7 +24,7 @@ export interface IGraphSlice {
 }
 
 const initialState: IGraphSlice = {
-  root: GraphNode.serialize(new GraphNode("root", NodeType.RootNode, "NO DATA")),
+  root: GraphNode.serialize(new GraphNode('root', NodeType.RootNode, 'NO DATA')),
   nodes: [],
   edges: [],
 };
