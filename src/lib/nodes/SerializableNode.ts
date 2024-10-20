@@ -12,11 +12,11 @@ export class SerializableNode<TNodeData = unknown> extends BaseNode<TNodeData> {
       children: root.children.map((child, idx) => this.serialize(child, depth + 1, idx)),
 
       nodeId: root.nodeId,
-      nodeType: root.nodeType.toString(),
+      nodeType: root.nodeType,
       allowedChildrenTypes: root.getAllowedChildren,
       data: root.data,
-      depth,
-      idx,
+      depth: depth,
+      idx: idx,
     };
   }
 

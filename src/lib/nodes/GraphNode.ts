@@ -1,12 +1,17 @@
-import { Edge } from '../../redux/graph/slice';
+import { Edge, UIGraphNode } from '../../redux/graph/slice';
+import BaseNode from './BaseNode';
 import { SerializableNode } from './SerializableNode';
+import { SerializedNode } from './SerializedNode';
 
 export class GraphNode<TNodeData = unknown> extends SerializableNode<TNodeData> {
-  public static buildNodesAndEdges(parent: GraphNode): {
-    nodes: GraphNode[];
+  public static buildNodesAndEdges(unserializedParent: GraphNode | SerializedNode): {
+    nodes: UIGraphNode[];
     edges: Edge[];
   } {
-    if (parent.children.length === 0) return { nodes: [], edges: [] };
+    const parent: SerializedNode =
+      unserializedParent instanceof BaseNode ? GraphNode.serialize(unserializedParent) : unserializedParent;
+
+    if (parent.children.length === 0) return { nodes: [parent], edges: [] };
 
     const nodesAndEdges = parent.children
       .map((child) => this.buildNodesAndEdges(child))
@@ -16,7 +21,7 @@ export class GraphNode<TNodeData = unknown> extends SerializableNode<TNodeData> 
       }));
 
     return {
-      nodes: [...nodesAndEdges.nodes, ...parent.children],
+      nodes: [parent, ...nodesAndEdges.nodes],
       edges: [
         ...nodesAndEdges.edges,
         ...parent.children.map((child) => ({
@@ -28,10 +33,10 @@ export class GraphNode<TNodeData = unknown> extends SerializableNode<TNodeData> 
     };
   }
 
-  public static isAcyclic(root: GraphNode): boolean {
+  public static containsNode(root: GraphNode): boolean {
     const { nodes } = this.buildNodesAndEdges(root);
     const uniqueNodes = new Set<string>(nodes.map((node) => node.nodeId));
 
-    return nodes.length === uniqueNodes.size;
+    return uniqueNodes.has(root.nodeId)
   }
 }

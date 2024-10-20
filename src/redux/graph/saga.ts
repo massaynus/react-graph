@@ -31,16 +31,13 @@ export function* addNode(action: PayloadAction<AddNodePayload>): Generator<Effec
   }
 
   parent.addChild(child);
-  const nodeAndEdges = GraphNode.buildNodesAndEdges(rootNode);
 
   yield put(graphActions.setRootNode(GraphNode.serialize(rootNode)));
 
-  yield put(
-    graphActions.setNodes(
-      nodeAndEdges.nodes.map((node) => GraphNode.serialize<typeof node.data>(node) as UIGraphNode),
-    ),
-  );
-  yield put(graphActions.setEdges(nodeAndEdges.edges));
+  const nodesAndEdges = GraphNode.buildNodesAndEdges(rootNode);
+  console.log(nodesAndEdges)
+  yield put(graphActions.setNodes(nodesAndEdges.nodes));
+  yield put(graphActions.setEdges(nodesAndEdges.edges));
 }
 
 export function* watchGraphSagas(): Generator<ForkEffect, void> {
