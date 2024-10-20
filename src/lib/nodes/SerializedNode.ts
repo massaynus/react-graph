@@ -1,10 +1,9 @@
-
 export interface SerializedNode<TData = unknown> {
-    nodeId: string;
-    nodeType: string;
+  nodeId: string;
+  nodeType: string;
 
-    allowedChildrenTypes: string[];
+  allowedChildrenTypes: string[];
 
-    data: TData;
-    children: SerializedNode[];
+  data: TData;
+  children: SerializedNode[];
 }

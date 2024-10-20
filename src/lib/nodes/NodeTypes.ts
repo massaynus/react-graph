@@ -1,6 +1,6 @@
 export enum NodeType {
-    CouponAssignmentNode = "CouponAssignmentNode",
-    CommunicationNode = "CommunicationNode",
-    NoPurchaseNode = "NoPurchaseNode",
-    PurchaseNode = "PurchaseNode"
+  CouponAssignmentNode = 'CouponAssignmentNode',
+  CommunicationNode = 'CommunicationNode',
+  NoPurchaseNode = 'NoPurchaseNode',
+  PurchaseNode = 'PurchaseNode',
 }
