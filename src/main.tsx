@@ -1,4 +1,5 @@
 import './index.css';
+import '@xyflow/react/dist/style.css';
 import 'reactflow/dist/style.css';
 
 import React from 'react';
@@ -11,10 +12,10 @@ import App from './App';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ReactFlowProvider>
+    <ReactFlowProvider>
+      <Provider store={store}>
         <App />
-      </ReactFlowProvider>
-    </Provider>
+      </Provider>
+    </ReactFlowProvider>
   </React.StrictMode>,
 );

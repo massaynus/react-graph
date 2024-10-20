@@ -19,7 +19,7 @@ function App() {
     dispatch(
       graphActions.addNode({
         parent: rootNode,
-        child: GraphNode.serialize(purchaseNode),
+        child: serializedPurchaseNode
       }),
     );
     dispatch(
