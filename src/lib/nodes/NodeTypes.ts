@@ -3,4 +3,5 @@ export enum NodeType {
   CommunicationNode = 'CommunicationNode',
   NoPurchaseNode = 'NoPurchaseNode',
   PurchaseNode = 'PurchaseNode',
+  RootNode = 'RootNode'
 }

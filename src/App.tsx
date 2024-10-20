@@ -11,13 +11,21 @@ function App() {
   const dispatch = useAppDispatch();
   const rootNode = useAppSelector(graphSelectors.selectRootNode);
   const edges = useAppSelector(graphSelectors.selectEdges);
+  const nodes = useAppSelector(graphSelectors.selectNodes);
 
   function onClickHandler(): void {
     const purchaseNode = new GraphNode('purr1', NodeType.PurchaseNode, 98.8);
-    const serializedPurchaseNode = GraphNode.serialize(purchaseNode);
+    const serializedPurchaseNode = GraphNode.serialize(purchaseNode)
 
-    dispatch(graphActions.setRootNode(serializedPurchaseNode));
 
+    dispatch(
+      graphActions.addNode({
+        parent: rootNode,
+        child: GraphNode.serialize(
+          purchaseNode
+        ),
+      }),
+    );
     dispatch(
       graphActions.addNode({
         parent: serializedPurchaseNode,
@@ -36,15 +44,7 @@ function App() {
     );
     dispatch(
       graphActions.addNode({
-        parent: serializedPurchaseNode,
-        child: GraphNode.serialize(
-          new GraphNode('coup2', NodeType.CommunicationNode, 'example@email.com'),
-        ),
-      }),
-    );
-    dispatch(
-      graphActions.addNode({
-        parent: serializedPurchaseNode,
+        parent: rootNode,
         child: GraphNode.serialize(
           new GraphNode('NoPurchase', NodeType.NoPurchaseNode, 'example@email.com'),
         ),
@@ -56,7 +56,7 @@ function App() {
     <React.Fragment>
       <button onClick={onClickHandler}>Add Sample Nodes</button>
       <pre>{JSON.stringify(edges, null, 2)}</pre>
-      <pre>{JSON.stringify(rootNode, null, 2)}</pre>
+      <pre>{JSON.stringify(nodes, null, 2)}</pre>
     </React.Fragment>
   );
 }

@@ -2,6 +2,9 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SerializedNode } from '../../lib/nodes/SerializedNode';
 import { AppRootState } from '../store';
+import { NodeType } from '../../lib/nodes/NodeTypes';
+import { GraphNode } from '../../lib/nodes/GraphNode';
+import { UIGraphNode } from '../../lib/nodes/UINode';
 
 export interface AddNodePayload {
   parent: SerializedNode;
@@ -14,13 +17,13 @@ export interface Edge {
 }
 
 export interface IGraphSlice {
-  root: SerializedNode | undefined;
-  nodes: SerializedNode[];
+  root: SerializedNode;
+  nodes: UIGraphNode[];
   edges: Edge[];
 }
 
 const initialState: IGraphSlice = {
-  root: undefined,
+  root: GraphNode.serialize(new GraphNode("root", NodeType.RootNode, "NO DATA")),
   nodes: [],
   edges: [],
 };
@@ -32,7 +35,7 @@ export const graphSlice = createSlice({
     setRootNode: (state, action: PayloadAction<SerializedNode>) => {
       state.root = action.payload;
     },
-    setNodes: (state, action: PayloadAction<SerializedNode[]>) => {
+    setNodes: (state, action: PayloadAction<UIGraphNode[]>) => {
       state.nodes = action.payload;
     },
     setEdges: (state, action: PayloadAction<Edge[]>) => {
@@ -48,6 +51,7 @@ export const graphActions = {
 };
 
 export const graphSelectors = {
-  selectRootNode: (state: AppRootState): SerializedNode<unknown> | undefined => state.graph.root,
+  selectRootNode: (state: AppRootState): SerializedNode<unknown> => state.graph.root,
   selectEdges: (state: AppRootState): Edge[] => state.graph.edges,
+  selectNodes: (state: AppRootState): UIGraphNode[] => state.graph.nodes,
 };
