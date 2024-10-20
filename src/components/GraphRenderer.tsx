@@ -24,7 +24,8 @@ const GraphRenderer: React.FC = () => {
     }));
 
     useEffect(() => {
-        console.log("Render:", JSON.stringify({ nodes, edges }));
+        console.table(nodes)
+        console.table(edges)
     }, [rawNodes, rawEdges]);
 
     return (
