@@ -1,13 +1,12 @@
 import React from 'react';
 
-import { SerializableNode } from './lib/nodes/BaseNode';
-import { CommunicationNode } from "./lib/nodes/BaseNode";
-import { CouponAssignmentNode } from "./lib/nodes/BaseNode";
-import { PurchaseNode } from "./lib/nodes/BaseNode";
 import { graphActions, graphSelectors } from './redux/graph/slice';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 
 import './App.css';
+import { NodeType } from './lib/nodes/NodeTypes';
+import { GraphNode } from './lib/nodes/GraphNode';
+
 
 function App() {
   const dispatch = useAppDispatch();
@@ -16,21 +15,26 @@ function App() {
 
 
   function onClickHandler(): void {
-    const purchaseNode = new PurchaseNode("purr1", 98.8)
-    const serializedPurchaseNode = SerializableNode.serialize(purchaseNode)
+    const purchaseNode = new GraphNode("purr1", NodeType.PurchaseNode, 98.8)
+    const serializedPurchaseNode = GraphNode.serialize(purchaseNode)
+
     dispatch(graphActions.setRootNode(serializedPurchaseNode))
 
     dispatch(graphActions.addNode({
       parent: serializedPurchaseNode, child:
-        SerializableNode.serialize(new CouponAssignmentNode("coup1", "AWESOME2024"))
+        GraphNode.serialize(new GraphNode("coup1", NodeType.CouponAssignmentNode, "AWESOME2024"))
     }))
     dispatch(graphActions.addNode({
       parent: serializedPurchaseNode, child:
-        SerializableNode.serialize(new CouponAssignmentNode("coup2", "BLACKFRI00"))
+        GraphNode.serialize(new GraphNode("coup2", NodeType.CouponAssignmentNode, "BLACKFRI00"))
     }))
     dispatch(graphActions.addNode({
       parent: serializedPurchaseNode, child:
-        SerializableNode.serialize(new CommunicationNode("coup2", "example@email.com"))
+        GraphNode.serialize(new GraphNode("coup2", NodeType.CommunicationNode, "example@email.com"))
+    }))
+    dispatch(graphActions.addNode({
+      parent: serializedPurchaseNode, child:
+        GraphNode.serialize(new GraphNode("NoPurchase", NodeType.NoPurchaseNode, "example@email.com"))
     }))
   }
 
