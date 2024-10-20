@@ -1,4 +1,4 @@
-import { Background, Controls, Edge, MiniMap, Node, ReactFlow } from '@xyflow/react';
+import { Background, Edge, Node, ReactFlow } from '@xyflow/react';
 import { useAppSelector } from '../redux/hooks';
 import { graphSelectors } from '../redux/graph/slice';
 import { useEffect } from 'react';
@@ -30,8 +30,6 @@ const GraphRenderer: React.FC = () => {
     return (
         <div style={{ width: '80vw', height: '80vh' }}>
             <ReactFlow nodes={nodes} edges={edges} fitView minZoom={0.1}>
-                <MiniMap />
-                <Controls />
                 <Background />
             </ReactFlow>
         </div>
