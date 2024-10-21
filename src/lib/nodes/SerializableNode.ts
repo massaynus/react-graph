@@ -3,13 +3,18 @@ import { NodeType } from './NodeTypes';
 import { SerializedNode } from './SerializedNode';
 
 export class SerializableNode<TNodeData = unknown> extends BaseNode<TNodeData> {
+  public serialize(): SerializedNode<TNodeData> {
+    return SerializableNode.serialize<TNodeData>(this);
+  }
+
   public static serialize<TData = unknown>(
-    root: SerializableNode<TData>,
+    root: BaseNode<TData>,
     depth: number = 0,
     idx: number = 0,
   ): SerializedNode<TData> {
     return {
-      children: root.children.map((child, idx) => this.serialize(child, depth + 1, idx)),
+      children: root.children
+        .map((child, idx) => SerializableNode.serialize(child, depth + 1, idx)),
 
       nodeId: root.nodeId,
       nodeType: root.nodeType,
@@ -20,7 +25,7 @@ export class SerializableNode<TNodeData = unknown> extends BaseNode<TNodeData> {
     };
   }
 
-  public static deserialize<TData = unknown>(root: SerializedNode): SerializableNode<TData> {
+  public static deserialize<TData = unknown>(root: SerializedNode): BaseNode<TData> {
     const nodeType: NodeType = NodeType[root.nodeType as keyof typeof NodeType];
     if (nodeType === undefined) throw new Error('Unsupported node type detected!');
 
