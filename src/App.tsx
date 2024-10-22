@@ -7,7 +7,7 @@ import './App.css';
 import { NodeType } from './lib/nodes/NodeTypes';
 import { GraphNode } from './lib/nodes/GraphNode';
 import { Graph } from './components/Graph';
-import ModalResolver from './components/Modal/ModalResolver';
+import ModalPortal from './components/Modal/ModalResolver';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -84,7 +84,7 @@ function App() {
     <React.Fragment>
       <button onClick={onClickHandler}>Add Sample Nodes</button>
       <Graph />
-      <ModalResolver />
+      <ModalPortal />
     </React.Fragment>
   );
 }

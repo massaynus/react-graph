@@ -2,12 +2,16 @@ import React from "react"
 import { createPortal } from "react-dom"
 
 
-const ModalResolver = () => {
+export interface ModalPortalProps {
+    chidlren: React.ReactNode[]
+}
+
+const ModalPortal = ({ chidlren }: ModalPortalProps) => {
     return createPortal(
-        (<React.Fragment></React.Fragment>),
+        (<React.Fragment>{chidlren}</React.Fragment>),
         document.querySelector('#modalPortal')!,
     )
 }
 
 
-export default ModalResolver
+export default ModalPortal
