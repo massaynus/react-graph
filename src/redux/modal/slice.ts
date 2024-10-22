@@ -4,6 +4,7 @@ import { UIGraphNode } from '../graph/slice';
 
 export enum ModalTypes {
   NodeActionModal,
+  AddNodeModal,
 }
 
 export interface IModalSlice {
@@ -37,6 +38,7 @@ export const modalActions = {
   ...modalSlice.actions,
   dismissModal: createAction('modals/dismissModal'),
   openNodeActionModal: createAction<UIGraphNode>('modals/openNodeActionModal'),
+  openAddNodeModal: createAction<UIGraphNode>('modals/openAddNodeModal'),
 
 };
 

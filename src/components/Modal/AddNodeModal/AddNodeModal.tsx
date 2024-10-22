@@ -1,46 +1,34 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { modalActions, modalSelectors, ModalTypes } from "../../../redux/modal/slice";
 import ModalLayout from "../ModalLayout/ModalLayout"
 import { UIGraphNode } from "../../../redux/graph/slice";
 import useIsModalOpen from "../../../hooks/useIsModalOpen";
 
-const NodeActionModal = () => {
-    const isModalOpen = useIsModalOpen(ModalTypes.NodeActionModal)
+const AddNodeModal = () => {
+    const isModalOpen = useIsModalOpen(ModalTypes.AddNodeModal)
     const dispatch = useAppDispatch()
     const bag = useAppSelector(modalSelectors.selectBag)
-
-    const isNodeAbsent = useMemo(() => bag === undefined || !('node' in bag), [bag])
 
     const handleDismiss = () => {
         dispatch(modalActions.dismissModal())
     }
 
-    const handleAddNode = () => {
-        if (isNodeAbsent) {
-            console.error('Opened Node action modal without a node present in bag')
-            return;
-        }
-
-        dispatch(modalActions.openAddNodeModal(bag!['node'] as UIGraphNode))
-    }
-
-    if (isNodeAbsent) {
+    if (bag === undefined || !('node' in bag)) {
         console.error('Opened Node action modal without a node present in bag')
         handleDismiss()
         return <React.Fragment></React.Fragment>
     }
 
-    const node: UIGraphNode = bag!['node']
+    const node: UIGraphNode = bag['node']
 
     if (!isModalOpen) return <></>
 
     return <ModalLayout
-        title="What do you want to do with this node?"
+        title="Choose the new node"
         footerContent={
             <>
-                <button onClick={handleAddNode}>Add a Node</button>
-                <button>Edit</button>
+                <button>Save</button>
                 <button onClick={handleDismiss}>Dismiss</button>
             </>
         }
@@ -49,4 +37,4 @@ const NodeActionModal = () => {
     </ModalLayout>
 }
 
-export default NodeActionModal;
+export default AddNodeModal;
