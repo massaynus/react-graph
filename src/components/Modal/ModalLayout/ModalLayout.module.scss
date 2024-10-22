@@ -1,0 +1,41 @@
+
+.container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    backdrop-filter: blur(8px) grayscale(10%) brightness(80%);
+    color: #DBD3D3;
+
+    .modal {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        width: 700px;
+        display: flex;
+        flex-direction: column;
+
+        background-color: #091057;
+        border-radius: 8px;
+        overflow: hidden;
+
+        .headerSection, .footerSection {
+            height: 100px;
+            background-color: #024CAA;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .contentSection {
+            flex: 3;
+
+            padding: 1rem 2rem;
+        }
+    }
+}

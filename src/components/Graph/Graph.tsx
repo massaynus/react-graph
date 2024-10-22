@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { NodeAllowedChildrenTypes } from '../../lib/nodes/NodeConfig';
 import { NodeType } from '../../lib/nodes/NodeTypes';
 import { GraphNode } from '../../lib/nodes/GraphNode';
+import { modalActions } from '../../redux/modal/slice';
 
 const NODE_WIDTH = 150;
 const NODE_HEIGHT = 100;
@@ -41,24 +42,10 @@ const Graph: React.FC = () => {
         console.table(edges)
     }, [rawNodes, rawEdges]);
 
-    const onNodeClick: NodeMouseHandler<Node> = (_, node) => {
-        const targetNode = rawNodes.find(n => n.nodeId === node.id)
-        if (typeof targetNode === 'undefined') return;
-
-        const nodeType = node.data.type
-        if (typeof nodeType === 'undefined') return;
-
-        const allowedChildren = NodeAllowedChildrenTypes[nodeType as keyof typeof NodeType]
-        if (typeof allowedChildren === 'undefined') return;
-
-        const nodes = allowedChildren
-            .map((chidType) => new GraphNode(
-                Math.floor(Math.random() * 100000).toString(), chidType, "N/A"))
-
-        nodes.forEach(node => dispatch(graphActions.addNode({
-            parent: targetNode,
-            child: node.serialize()
-        })))
+    const onNodeClick: NodeMouseHandler<Node> = (_, _node) => {
+        const node = rawNodes.find(n => n.nodeId === _node.id)
+        if (node !== undefined)
+            dispatch(modalActions.openNodeActionModal(node))
     }
 
     return (

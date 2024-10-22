@@ -7,7 +7,7 @@ import './App.css';
 import { NodeType } from './lib/nodes/NodeTypes';
 import { GraphNode } from './lib/nodes/GraphNode';
 import { Graph } from './components/Graph';
-import ModalPortal from './components/Modal/ModalResolver';
+import ModalPortal from './components/Modal/ModalPortal';
 
 function App() {
   const dispatch = useAppDispatch();
