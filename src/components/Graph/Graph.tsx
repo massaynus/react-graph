@@ -1,33 +1,32 @@
 import { Background, Edge, Node, NodeMouseHandler, ReactFlow } from '@xyflow/react';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
-import { graphActions, graphSelectors } from '../redux/graph/slice';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { graphActions, graphSelectors, UIGraphNode } from '../../redux/graph/slice';
 import { useEffect } from 'react';
-import { NodeAllowedChildrenTypes } from '../lib/nodes/NodeConfig';
-import { NodeType } from '../lib/nodes/NodeTypes';
-import { GraphNode } from '../lib/nodes/GraphNode';
+import { NodeAllowedChildrenTypes } from '../../lib/nodes/NodeConfig';
+import { NodeType } from '../../lib/nodes/NodeTypes';
+import { GraphNode } from '../../lib/nodes/GraphNode';
 
-const NODE_WIDTH = 200;
+const NODE_WIDTH = 150;
 const NODE_HEIGHT = 100;
 
-const GraphRenderer: React.FC = () => {
+const Graph: React.FC = () => {
     const dispatch = useAppDispatch()
     const rawNodes = useAppSelector(graphSelectors.selectNodes);
     const rawEdges = useAppSelector(graphSelectors.selectEdges);
 
     const nodesPerLevel = rawNodes.reduce((acc, curr) => {
-        const { idx, depth } = curr
-        return depth in acc && acc[depth] > idx ? acc : { ...acc, [depth]: idx + 1 }
+        const { depth } = curr
+        return depth in acc ? { ...acc, [depth]: acc[depth].concat(curr) } : { ...acc, [depth]: [curr] }
 
-    }, {} as Record<number, number>)
+    }, {} as Record<number, UIGraphNode[]>)
 
-    const maxNodesPerLevel = Math.max(...Object.values(nodesPerLevel))
-
-    const nodes: Node[] = rawNodes.map((node) => ({
-        id: node.nodeId,
-        position: { x: Math.floor(maxNodesPerLevel * NODE_WIDTH / (nodesPerLevel[node.depth] ?? 1) * (node.idx) * 2), y: node.depth * NODE_HEIGHT },
-        data: { label: `${node.nodeType} - ${node.data}` },
-        type: node.nodeType
-    }));
+    const nodes: Node[] = Object.values(nodesPerLevel).flatMap(lvlNodes => {
+        return lvlNodes.map((node, idx) => ({
+            id: node.nodeId,
+            position: { x: NODE_WIDTH * idx, y: node.depth * NODE_HEIGHT },
+            data: { label: `{${node.nodeId}} ${node.nodeType} - ${node.data}`, type: node.nodeType },
+        }))
+    })
 
     const edges: Edge[] = rawEdges.map((edge) => ({
         id: `e${edge.source}-${edge.target}`,
@@ -37,7 +36,6 @@ const GraphRenderer: React.FC = () => {
     }));
 
     useEffect(() => {
-        console.table({ maxNodesPerLevel })
         console.table(nodesPerLevel)
         console.table(nodes.map(n => n.position))
         console.table(edges)
@@ -47,7 +45,7 @@ const GraphRenderer: React.FC = () => {
         const targetNode = rawNodes.find(n => n.nodeId === node.id)
         if (typeof targetNode === 'undefined') return;
 
-        const nodeType = node.type
+        const nodeType = node.data.type
         if (typeof nodeType === 'undefined') return;
 
         const allowedChildren = NodeAllowedChildrenTypes[nodeType as keyof typeof NodeType]
@@ -55,7 +53,7 @@ const GraphRenderer: React.FC = () => {
 
         const nodes = allowedChildren
             .map((chidType) => new GraphNode(
-                Math.floor(Math.random() * 100).toString(), chidType, "N/A"))
+                Math.floor(Math.random() * 100000).toString(), chidType, "N/A"))
 
         nodes.forEach(node => dispatch(graphActions.addNode({
             parent: targetNode,
@@ -77,4 +75,4 @@ const GraphRenderer: React.FC = () => {
     );
 };
 
-export default GraphRenderer;
+export default Graph;

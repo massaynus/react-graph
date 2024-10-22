@@ -6,7 +6,8 @@ import { useAppDispatch, useAppSelector } from './redux/hooks';
 import './App.css';
 import { NodeType } from './lib/nodes/NodeTypes';
 import { GraphNode } from './lib/nodes/GraphNode';
-import { GraphRenderer } from './components';
+import { Graph } from './components/Graph';
+import ModalResolver from './components/Modal/ModalResolver';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -82,9 +83,8 @@ function App() {
   return (
     <React.Fragment>
       <button onClick={onClickHandler}>Add Sample Nodes</button>
-      <GraphRenderer />
-      {/* <pre>{JSON.stringify(edges, null, 2)}</pre>
-      <pre>{JSON.stringify(nodes, null, 2)}</pre> */}
+      <Graph />
+      <ModalResolver />
     </React.Fragment>
   );
 }
