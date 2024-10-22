@@ -25,11 +25,11 @@ export default abstract class BaseNode<TNodeData = unknown> {
     if (this.nodeId === nodeId) return this;
 
     for (const child of this.children) {
-      const foundNode = child.find(nodeId)
-      if (typeof foundNode !== 'undefined') return foundNode
+      const foundNode = child.find(nodeId);
+      if (typeof foundNode !== 'undefined') return foundNode;
     }
 
-    return undefined
+    return undefined;
   }
 
   public addChild(child: BaseNode): void {

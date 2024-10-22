@@ -1,43 +1,43 @@
-
 .container {
-    transition: .3s all ease;
+  transition: 0.3s all ease;
 
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 
-    backdrop-filter: blur(5px) brightness(50%);
-    color: #DBD3D3;
+  backdrop-filter: blur(5px) brightness(50%);
+  color: #dbd3d3;
 
-    .modal {
-        position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+  .modal {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 
-        width: 700px;
-        display: flex;
-        flex-direction: column;
+    width: 700px;
+    display: flex;
+    flex-direction: column;
 
-        background-color: #091057;
-        border-radius: 8px;
-        overflow: hidden;
+    background-color: #091057;
+    border-radius: 8px;
+    overflow: hidden;
 
-        .headerSection, .footerSection {
-            height: 100px;
-            background-color: #024CAA;
+    .headerSection,
+    .footerSection {
+      height: 100px;
+      background-color: #024caa;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-        }
-
-        .contentSection {
-            flex: 3;
-
-            padding: 1rem 2rem;
-        }
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
     }
+
+    .contentSection {
+      flex: 3;
+
+      padding: 1rem 2rem;
+    }
+  }
 }

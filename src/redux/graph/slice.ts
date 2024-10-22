@@ -10,7 +10,7 @@ export interface AddNodePayload {
   child: UIGraphNode;
 }
 
-export type UIGraphNode<TData = unknown> = SerializedNode<TData>
+export type UIGraphNode<TData = unknown> = SerializedNode<TData>;
 
 export interface Edge {
   source: string;
@@ -23,7 +23,7 @@ export interface IGraphSlice {
   edges: Edge[];
 }
 
-const rootNode = new GraphNode('root', NodeType.RootNode, 'NO DATA').serialize()
+const rootNode = new GraphNode('root', NodeType.RootNode, 'NO DATA').serialize();
 
 const initialState: IGraphSlice = {
   root: rootNode,

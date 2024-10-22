@@ -3,7 +3,7 @@ import { modalReducer } from './modal/slice';
 
 const rootReducer = {
   graph: graphReducer,
-  modal: modalReducer
+  modal: modalReducer,
 };
 
 export default rootReducer;

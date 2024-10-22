@@ -9,7 +9,9 @@ export class GraphNode<TNodeData = unknown> extends SerializableNode<TNodeData> 
     edges: Edge[];
   } {
     const parent: SerializedNode =
-      unserializedParent instanceof BaseNode ? GraphNode.serialize(unserializedParent) : unserializedParent;
+      unserializedParent instanceof BaseNode
+        ? GraphNode.serialize(unserializedParent)
+        : unserializedParent;
 
     if (parent.children.length === 0) return { nodes: [parent], edges: [] };
 
@@ -37,6 +39,6 @@ export class GraphNode<TNodeData = unknown> extends SerializableNode<TNodeData> 
     const { nodes } = this.buildNodesAndEdges(root);
     const uniqueNodes = new Set<string>(nodes.map((node) => node.nodeId));
 
-    return uniqueNodes.has(root.nodeId)
+    return uniqueNodes.has(root.nodeId);
   }
 }

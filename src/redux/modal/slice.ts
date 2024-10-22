@@ -8,9 +8,9 @@ export enum ModalTypes {
 }
 
 export interface IModalSlice {
-  isPortalOpen: boolean
-  chosenModal?: ModalTypes
-  bag?: Record<string, any>
+  isPortalOpen: boolean;
+  chosenModal?: ModalTypes;
+  bag?: Record<string, any>;
 }
 
 const initialState: IModalSlice = {
@@ -22,14 +22,14 @@ export const modalSlice = createSlice({
   initialState,
   reducers: {
     setIsPortalOpen(state, action: PayloadAction<boolean>) {
-      state.isPortalOpen = action.payload
+      state.isPortalOpen = action.payload;
     },
     setChosenModal(state, action: PayloadAction<ModalTypes | undefined>) {
-      state.chosenModal = action.payload
+      state.chosenModal = action.payload;
     },
     setBag(state, action: PayloadAction<Record<string, any> | undefined>) {
-      state.bag = action.payload
-    }
+      state.bag = action.payload;
+    },
   },
 });
 
@@ -39,7 +39,6 @@ export const modalActions = {
   dismissModal: createAction('modals/dismissModal'),
   openNodeActionModal: createAction<UIGraphNode>('modals/openNodeActionModal'),
   openAddNodeModal: createAction<UIGraphNode>('modals/openAddNodeModal'),
-
 };
 
 export const modalSelectors = {

@@ -4,23 +4,23 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { UIGraphNode } from '../graph/slice';
 
 export function* dismissModal(): Generator<Effect, void> {
-  yield put(modalActions.setIsPortalOpen(false))
-  yield put(modalActions.setChosenModal(undefined))
-  yield put(modalActions.setBag(undefined))
+  yield put(modalActions.setIsPortalOpen(false));
+  yield put(modalActions.setChosenModal(undefined));
+  yield put(modalActions.setBag(undefined));
 }
 
 export function* openNodeActionModal(action: PayloadAction<UIGraphNode>): Generator<Effect, void> {
-  yield call(openModal, ModalTypes.NodeActionModal, { 'node': action.payload })
+  yield call(openModal, ModalTypes.NodeActionModal, { node: action.payload });
 }
 
 export function* openAddNodeModal(action: PayloadAction<UIGraphNode>): Generator<Effect, void> {
-  yield call(openModal, ModalTypes.AddNodeModal, { 'node': action.payload })
+  yield call(openModal, ModalTypes.AddNodeModal, { node: action.payload });
 }
 
 function* openModal(type: ModalTypes, bag: Record<string, any>): Generator<Effect, void> {
-  yield put(modalActions.setBag(bag))
-  yield put(modalActions.setChosenModal(type))
-  yield put(modalActions.setIsPortalOpen(true))
+  yield put(modalActions.setBag(bag));
+  yield put(modalActions.setChosenModal(type));
+  yield put(modalActions.setIsPortalOpen(true));
 }
 
 export function* watchModalSagas(): Generator<ForkEffect, void> {

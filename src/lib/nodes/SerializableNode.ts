@@ -13,8 +13,9 @@ export class SerializableNode<TNodeData = unknown> extends BaseNode<TNodeData> {
     idx: number = 0,
   ): SerializedNode<TData> {
     return {
-      children: root.children
-        .map((child, idx) => SerializableNode.serialize(child, depth + 1, idx)),
+      children: root.children.map((child, idx) =>
+        SerializableNode.serialize(child, depth + 1, idx),
+      ),
 
       nodeId: root.nodeId,
       nodeType: root.nodeType,

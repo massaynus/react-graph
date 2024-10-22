@@ -15,41 +15,40 @@ function App() {
 
   function onClickHandler(): void {
     const targetGroupNode = GraphNode.serialize(
-      new GraphNode("TG1", NodeType.TargetGroupNode, "TG1")
-    )
-
+      new GraphNode('TG1', NodeType.TargetGroupNode, 'TG1'),
+    );
 
     const targetGroupNode2 = GraphNode.serialize(
-      new GraphNode("TG2", NodeType.TargetGroupNode, "TG2")
-    )
+      new GraphNode('TG2', NodeType.TargetGroupNode, 'TG2'),
+    );
 
     const purchaseNode = new GraphNode('purr1', NodeType.PurchaseNode, 98.8);
     const serializedPurchaseNode = GraphNode.serialize(purchaseNode);
 
     const serializedCouponNode = GraphNode.serialize(
       new GraphNode('coup1', NodeType.CouponAssignmentNode, 'AWESOME2024'),
-    )
+    );
 
     const serializedNoPurchaseNode = GraphNode.serialize(
       new GraphNode('NoPurchase', NodeType.NoPurchaseNode, 'example@email.com'),
-    )
+    );
 
     dispatch(
       graphActions.addNode({
         parent: rootNode,
-        child: targetGroupNode
+        child: targetGroupNode,
       }),
     );
     dispatch(
       graphActions.addNode({
         parent: rootNode,
-        child: targetGroupNode2
+        child: targetGroupNode2,
       }),
     );
     dispatch(
       graphActions.addNode({
         parent: targetGroupNode,
-        child: serializedPurchaseNode
+        child: serializedPurchaseNode,
       }),
     );
     dispatch(
@@ -75,9 +74,9 @@ function App() {
     dispatch(
       graphActions.addNode({
         parent: serializedNoPurchaseNode,
-        child: serializedCouponNode
-      })
-    )
+        child: serializedCouponNode,
+      }),
+    );
   }
 
   return (
