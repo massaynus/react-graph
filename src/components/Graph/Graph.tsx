@@ -33,12 +33,6 @@ const Graph: React.FC = () => {
         target: edge.target,
     }));
 
-    useEffect(() => {
-        console.table(nodesPerLevel)
-        console.table(nodes.map(n => n.position))
-        console.table(edges)
-    }, [rawNodes, rawEdges]);
-
     const onNodeClick: NodeMouseHandler<Node> = (_, _node) => {
         const node = rawNodes.find(n => n.nodeId === _node.id)
         if (node !== undefined)

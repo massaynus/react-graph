@@ -27,13 +27,11 @@ export function* addNode(action: PayloadAction<AddNodePayload>): Generator<Effec
     throw new Error(`Parent with id {${serializedParent.nodeId}} not found!`);
   }
 
-  console.log("Saga", `Adding ${child.nodeId} to ${parent.nodeId}`, serializedParent.nodeId, serializedChild.nodeId)
   parent.addChild(child);
 
   yield put(graphActions.setRootNode(GraphNode.serialize(rootNode)));
 
   const nodesAndEdges = GraphNode.buildNodesAndEdges(rootNode);
-  console.log(nodesAndEdges)
   yield put(graphActions.setNodes(nodesAndEdges.nodes));
   yield put(graphActions.setEdges(nodesAndEdges.edges));
 }

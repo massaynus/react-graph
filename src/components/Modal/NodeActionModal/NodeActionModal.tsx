@@ -40,7 +40,8 @@ const NodeActionModal = () => {
         footerContent={
             <>
                 <button onClick={handleAddNode}>Add a Node</button>
-                <button>Edit</button>
+                <button disabled>Edit</button>
+                <button disabled>Delete</button>
                 <button onClick={handleDismiss}>Dismiss</button>
             </>
         }

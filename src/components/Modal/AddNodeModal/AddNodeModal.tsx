@@ -54,7 +54,6 @@ const AddNodeModal = () => {
             <input type="text" name="nodeId" id="nodeId" placeholder="node id" onChange={(e) => setNodeId(e.target.value)} value={nodeId} />
             <input type="text" name="data" id="data" placeholder="data" onChange={(e) => setData(e.target.value)} value={data} />
             <select name="nodeType" id="nodeType" onChange={(e) => {
-                console.log(nodeType, e.target.value, e.currentTarget.value)
                 setNodeType(e.target.value)
             }} value={nodeType}>
                 <option disabled hidden selected value=""></option>

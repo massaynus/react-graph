@@ -6,7 +6,6 @@ const useIsModalOpen = (type: ModalTypes) => {
     const chosenModal = useAppSelector(modalSelectors.selectChosenModal)
 
     const result = isPortalOpen && chosenModal === type
-    console.log({ isPortalOpen, chosenModal, type, result })
 
     return result
 }

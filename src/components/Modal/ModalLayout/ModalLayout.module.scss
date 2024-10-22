@@ -1,12 +1,14 @@
 
 .container {
+    transition: .3s all ease;
+
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
 
-    backdrop-filter: blur(8px) grayscale(10%) brightness(80%);
+    backdrop-filter: blur(5px) brightness(50%);
     color: #DBD3D3;
 
     .modal {
