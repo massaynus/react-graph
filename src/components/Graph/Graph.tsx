@@ -1,10 +1,7 @@
 import { Background, Edge, Node, NodeMouseHandler, ReactFlow } from '@xyflow/react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { graphActions, graphSelectors, UIGraphNode } from '../../redux/graph/slice';
+import { graphSelectors, UIGraphNode } from '../../redux/graph/slice';
 import { useEffect } from 'react';
-import { NodeAllowedChildrenTypes } from '../../lib/nodes/NodeConfig';
-import { NodeType } from '../../lib/nodes/NodeTypes';
-import { GraphNode } from '../../lib/nodes/GraphNode';
 import { modalActions } from '../../redux/modal/slice';
 
 const NODE_WIDTH = 150;
