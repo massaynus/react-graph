@@ -13,7 +13,7 @@
     "check:lint": "eslint . --ext ts --ext tsx --ext js",
     "check:format": "prettier --check .",
     "check:types": "tsc --pretty --noEmit",
-    "check:all": "npm check:lint && npm check:format && npm check:types && npm build",
+    "check:all": "npm run check:lint && npm run check:format && npm run check:types && npm run build",
     "prepare": "husky"
   },
   "dependencies": {
