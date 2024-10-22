@@ -25,7 +25,7 @@ export class SerializableNode<TNodeData = unknown> extends BaseNode<TNodeData> {
     };
   }
 
-  public static deserialize<TData = unknown>(root: SerializedNode): BaseNode<TData> {
+  public static deserialize<TData = unknown>(root: SerializedNode): SerializableNode<TData> {
     const nodeType: NodeType = NodeType[root.nodeType as keyof typeof NodeType];
     if (nodeType === undefined) throw new Error('Unsupported node type detected!');
 

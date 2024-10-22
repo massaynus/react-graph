@@ -1,0 +1,17 @@
+.form {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: 10px;
+
+    input[type='text'], select {
+        padding: 0.5rem;
+        border: none;
+        background-color: whitesmoke;
+        border-radius: 5px;
+        color: black;
+        font-size: large;
+    }
+
+}

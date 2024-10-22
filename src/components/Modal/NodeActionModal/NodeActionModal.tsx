@@ -45,7 +45,10 @@ const NodeActionModal = () => {
             </>
         }
     >
-        <pre>{JSON.stringify(node, null, 2)}</pre>
+        <pre>{JSON.stringify(node, (key, value) => {
+            if (key === 'children') return undefined
+            else return value
+        }, 2)}</pre>
     </ModalLayout>
 }
 

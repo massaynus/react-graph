@@ -10,7 +10,7 @@ export interface AddNodePayload {
   child: UIGraphNode;
 }
 
-export type UIGraphNode<TData = unknown> = Omit<SerializedNode<TData>, 'children'>;
+export type UIGraphNode<TData = unknown> = SerializedNode<TData>
 
 export interface Edge {
   source: string;
