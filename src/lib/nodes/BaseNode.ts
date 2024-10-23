@@ -1,4 +1,4 @@
-import { NodeAllowedChildrenTypes } from './NodeConfig';
+import { NodeAllowedChildrenTypes, NodeKinds, NodeValidators } from './NodeConfig';
 import { NodeType } from './NodeTypes';
 
 export default abstract class BaseNode<TNodeData = unknown> {
@@ -8,11 +8,13 @@ export default abstract class BaseNode<TNodeData = unknown> {
   readonly children: BaseNode[];
 
   protected allowedChildrenTypes: NodeType[];
+  protected parent: BaseNode | undefined
 
-  constructor(nodeId: string, type: NodeType, data: TNodeData) {
+  constructor(nodeId: string, type: NodeType, data: TNodeData, parent: BaseNode | undefined = undefined) {
     this.nodeId = nodeId;
     this.nodeType = type;
     this.data = data;
+    this.parent = parent
     this.children = [];
     this.allowedChildrenTypes = NodeAllowedChildrenTypes[type];
   }
@@ -33,13 +35,34 @@ export default abstract class BaseNode<TNodeData = unknown> {
   }
 
   public addChild(child: BaseNode): void {
+    child.parent = this
+
     const childType = child.nodeType;
+    const validators = NodeValidators[childType]
 
     if (!this.allowedChildrenTypes.includes(childType)) {
       throw new Error(`cannot add node of unsupported type ${childType} to ${this.nodeType}`);
     }
 
+    if (
+      Array.isArray(validators)
+        ? validators.every(validator => validator(child))
+        : validators(child)
+    ) {
+      throw new Error(`Invalid node`)
+    }
+
     this.children.push(child);
+  }
+
+  public get getParent(): BaseNode | undefined {
+    return this.parent
+  }
+
+  public get actionType(): keyof typeof NodeKinds {
+    const actionType = Object.keys(NodeKinds).find(key => NodeKinds[key].includes(this.nodeType))
+    if (typeof actionType === 'undefined') throw new Error('UNSUPPORTED ACTION NODE')
+    return actionType
   }
 
   public get getChildren(): BaseNode[] {
