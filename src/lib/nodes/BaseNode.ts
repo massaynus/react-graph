@@ -39,18 +39,16 @@ export default abstract class BaseNode<TNodeData = unknown> {
 
     const childType = child.nodeType;
     const validators = NodeValidators[childType]
+    const isValid = Array.isArray(validators)
+      ? validators.every(validator => validator(child))
+      : validators(child)
 
     if (!this.allowedChildrenTypes.includes(childType)) {
       throw new Error(`cannot add node of unsupported type ${childType} to ${this.nodeType}`);
     }
 
-    if (
-      Array.isArray(validators)
-        ? validators.every(validator => validator(child))
-        : validators(child)
-    ) {
+    if (!isValid)
       throw new Error(`Invalid node`)
-    }
 
     this.children.push(child);
   }

@@ -76,9 +76,9 @@ const AddNodeModal = () => {
           onChange={(e) => {
             setNodeType(e.target.value);
           }}
-          value={nodeType}
+          defaultValue=''
         >
-          <option disabled hidden selected value=""></option>
+          <option disabled hidden value=""></option>
           {node.allowedChildrenTypes.map((child, idx) => (
             <option key={`${child}-${idx}`} value={child}>
               {child}
