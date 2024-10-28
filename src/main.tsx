@@ -9,12 +9,14 @@ import { ReactFlowProvider } from '@xyflow/react';
 
 import { store } from './redux/store';
 import App from './App';
+import AttributesQueryBuilder from './components/AttributesQueryBuilder/AttributesQueryBuilder';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ReactFlowProvider>
       <Provider store={store}>
-        <App />
+        {/* <App /> */}
+        <AttributesQueryBuilder />
       </Provider>
     </ReactFlowProvider>
   </React.StrictMode>,

@@ -8,6 +8,7 @@ import styles from './AddTGNodeModal.module.scss';
 import { GraphNode } from '../../../lib/nodes/GraphNode';
 import { NodeType } from '../../../lib/nodes/NodeTypes';
 import { QueryBuilder } from 'react-querybuilder';
+import AttributesQueryBuilder from '../../AttributesQueryBuilder/AttributesQueryBuilder';
 
 const AddTGNodeModal = () => {
   const isModalOpen = useIsModalOpen(ModalTypes.AddTGNodeModal);
@@ -39,7 +40,7 @@ const AddTGNodeModal = () => {
         </>
       }
     >
-      <QueryBuilder />
+      <AttributesQueryBuilder />
     </ModalLayout>
   );
 };
