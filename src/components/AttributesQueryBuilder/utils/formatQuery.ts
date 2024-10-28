@@ -25,7 +25,7 @@ const listAttrTypeMap: Record<number, (value: string) => any> = {
       .join(',')}}`,
 };
 
-export const transformAndFormatQuery = (
+export const transformAndFormatQuerytoSpEL = (
   query: RuleGroupTypeIC,
   attributes: TargetingAttribute[],
 ): string => {
