@@ -1,4 +1,4 @@
-import { TargetingAttribute } from '../lib/models/TargetingAttribute';
+import { TargetingAttribute } from '../../../lib/models/TargetingAttribute';
 
 export const mockTargetingAttributes: TargetingAttribute[] = [
   {

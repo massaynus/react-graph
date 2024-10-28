@@ -1,6 +1,6 @@
 import QueryBuilder, { RuleGroupTypeIC } from 'react-querybuilder';
 import 'react-querybuilder/dist/query-builder.css';
-import { mockTargetingAttributes } from '../../data/mockTargetingAttributes';
+import { mockTargetingAttributes } from './data/mockTargetingAttributes';
 import { useEffect, useState } from 'react';
 import { toFields } from './utils/toFields';
 import { transformAndFormatQuerytoSpEL } from './utils/formatQuery';
