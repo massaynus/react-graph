@@ -17,6 +17,10 @@ export function* openAddNodeModal(action: PayloadAction<UIGraphNode>): Generator
   yield call(openModal, ModalTypes.AddNodeModal, { node: action.payload });
 }
 
+export function* openAddTGNodeModal(action: PayloadAction<UIGraphNode>): Generator<Effect, void> {
+  yield call(openModal, ModalTypes.AddTGNodeModal, { node: action.payload });
+}
+
 function* openModal(type: ModalTypes, bag: Record<string, any>): Generator<Effect, void> {
   yield put(modalActions.setBag(bag));
   yield put(modalActions.setChosenModal(type));
@@ -27,6 +31,7 @@ export function* watchModalSagas(): Generator<ForkEffect, void> {
   yield takeEvery(modalActions.dismissModal, dismissModal);
   yield takeEvery(modalActions.openNodeActionModal, openNodeActionModal);
   yield takeEvery(modalActions.openAddNodeModal, openAddNodeModal);
+  yield takeEvery(modalActions.openAddTGNodeModal, openAddTGNodeModal);
 }
 
 const modalSagas = watchModalSagas;

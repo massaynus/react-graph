@@ -1,4 +1,3 @@
-import { SchedulableNodeData } from "./Common";
+import { SchedulableNodeData } from './Common';
 
-export type PurchaseNodeData = {
-} & SchedulableNodeData
+export type PurchaseNodeData = {} & SchedulableNodeData;

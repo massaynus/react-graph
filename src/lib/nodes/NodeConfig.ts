@@ -14,8 +14,8 @@ export const NodeAllowedChildrenTypes: Record<NodeType, NodeType[]> = {
 
 export const NodeKinds: Record<string, NodeType[]> = {
   system: [NodeType.CommunicationNode, NodeType.CouponAssignmentNode],
-  user: [NodeType.PurchaseNode, NodeType.NoPurchaseNode]
-}
+  user: [NodeType.PurchaseNode, NodeType.NoPurchaseNode],
+};
 
 export const NodeValidators: Record<NodeType, NodeValidator | NodeValidator[]> = {
   [NodeType.CommunicationNode]: [defaultValidator, scheduledNodeValidator],

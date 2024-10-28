@@ -1,5 +1,5 @@
-import BaseNode from "../BaseNode";
+import BaseNode from '../BaseNode';
 
 export function defaultValidator(_node: BaseNode): boolean {
-    return true
+  return true;
 }

@@ -1,7 +1,7 @@
-import BaseNode from "../BaseNode"
+import BaseNode from '../BaseNode';
 
 export type SchedulableNodeData = {
-    scheduled_at?: Date
-}
+  scheduled_at?: Date;
+};
 
-export type NodeValidator = (node: BaseNode) => boolean
+export type NodeValidator = (node: BaseNode) => boolean;

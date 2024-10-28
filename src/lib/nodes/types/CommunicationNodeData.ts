@@ -1,3 +1,3 @@
-import { SchedulableNodeData } from "./Common";
+import { SchedulableNodeData } from './Common';
 
-export type CommunicationNodeData = { offerId: string } & SchedulableNodeData
+export type CommunicationNodeData = { offerId: string } & SchedulableNodeData;

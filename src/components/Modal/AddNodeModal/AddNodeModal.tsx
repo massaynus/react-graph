@@ -30,15 +30,17 @@ const AddNodeModal = () => {
   const node: UIGraphNode = bag['node'];
 
   const handleSave = () => {
-    const newNode = new GraphNode(nodeId, nodeType as NodeType, data);
+    const newNode = new GraphNode(nodeId, nodeType as NodeType, data).serialize();
     dispatch(
       graphActions.addNode({
         parent: node,
-        child: newNode.serialize(),
+        child: newNode,
       }),
     );
 
-    handleDismiss();
+    if ((nodeType as NodeType) === NodeType.TargetGroupNode)
+      dispatch(modalActions.openAddTGNodeModal(newNode));
+    else handleDismiss();
   };
 
   if (!isModalOpen) return <></>;
@@ -76,7 +78,7 @@ const AddNodeModal = () => {
           onChange={(e) => {
             setNodeType(e.target.value);
           }}
-          defaultValue=''
+          defaultValue=""
         >
           <option disabled hidden value=""></option>
           {node.allowedChildrenTypes.map((child, idx) => (
