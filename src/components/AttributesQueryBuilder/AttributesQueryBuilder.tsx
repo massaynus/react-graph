@@ -15,7 +15,6 @@ const AttributesQueryBuilder = () => {
     if (typeof queryCopie === 'undefined') return;
 
     const tQuery = transformAndFormatQuerytoSpEL(queryCopie, mockTargetingAttributes)
-    console.log(tQuery);
 
     setTq(tQuery);
   }, [query]);
@@ -27,7 +26,10 @@ const AttributesQueryBuilder = () => {
         onQueryChange={(query: RuleGroupTypeIC) => {
           setQuery(query);
         }}
+        showCombinatorsBetweenRules
+        showNotToggle
         showShiftActions
+        debugMode
       />
       <h1>Generated SpEL:</h1>
       <h3 style={{ padding: '1rem' }}>{tq}</h3>

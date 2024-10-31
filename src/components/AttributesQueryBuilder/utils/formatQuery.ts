@@ -1,4 +1,12 @@
-import { formatQuery, RuleGroupTypeIC, RuleType, transformQuery } from 'react-querybuilder';
+import {
+  formatQuery,
+  isRuleGroup,
+  RuleGroup,
+  RuleGroupICArray,
+  RuleGroupTypeIC,
+  RuleType,
+  transformQuery,
+} from 'react-querybuilder';
 import { TargetingAttribute } from '../../../lib/models/TargetingAttribute';
 
 const attrTypeMap: Record<number, (value: string) => any> = {
@@ -65,5 +73,50 @@ export const transformAndFormatQuerytoSpEL = (
     },
   });
 
-  return formatQuery(tarnsformedQuery, { format: 'spel' });
+  // Because ruleGroupProcessor runs before the ruleProcessor
+  // and we want to sort base on the resolved values
+  const tarnsformedRG = transformQuery(tarnsformedQuery, {
+    ruleGroupProcessor: (ruleGroup: RuleGroupTypeIC): any => {
+      const rg = structuredClone(ruleGroup) as RuleGroupTypeIC;
+      console.log(Object.getOwnPropertyDescriptor(rg, 'rules'));
+
+      const newRules = rg.rules
+        .map((r1) => r1)
+        .sort((r1, r2) => {
+          if (typeof r1 !== 'string' && 'field' in r1 && r1.field.includes('event')) return -1;
+          if (typeof r2 !== 'string' && 'field' in r2 && r2.field.includes('event')) return 1;
+          else {
+            console.log('SAME', r1, r2);
+            return 0;
+          }
+        });
+
+      return { ...rg, rules: newRules } as RuleGroupTypeIC;
+
+      /**
+      rg.rules = rg.rules
+        .map((rg) => rg)
+        .sort((r1, r2) => {
+          // Handeling the other types a ruleGroup can have
+          // just keep them in the same order
+          if (typeof r1 === 'string' || isRuleGroup(r1)) return 1;
+          if (typeof r2 === 'string' || isRuleGroup(r2)) return -1;
+
+          // At this point we know this is a rule, I don't even know why this API behaves this way
+          // since looking at this piece of source code does the same tests i do before calling the ruleGroupProcessor
+          // https://github.com/react-querybuilder/react-querybuilder/blob/990cc3ebb1fb641f4eb68c27a73bb0cdb41f729f/packages/react-querybuilder/src/utils/formatQuery/formatQuery.ts#L489
+
+          if ((r1.value as string)?.includes('event')) return -1;
+          else if ((r2.value as string).includes('event')) return 1;
+          else return 0;
+        });
+
+      return rg;
+      **/
+    },
+  });
+
+  console.log('Result: ', tarnsformedRG);
+
+  return formatQuery(tarnsformedRG, { format: 'spel' });
 };
