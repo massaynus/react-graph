@@ -6,5 +6,7 @@ export const toOptionsList = (att: TargetingAttribute): { label: string; value: 
 
   const options = fields.map((field, idx) => ({ field, value: values[idx] }));
 
-  return options.map(({ field, value }) => ({ label: field, value }));
+  return [{ label: 'N/A', value: '' }].concat(
+    options.map(({ field, value }) => ({ label: field, value })),
+  );
 };

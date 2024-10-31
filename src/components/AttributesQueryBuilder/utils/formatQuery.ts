@@ -2,23 +2,23 @@ import { formatQuery, RuleGroupTypeIC, RuleType, transformQuery } from 'react-qu
 import { TargetingAttribute } from '../../../lib/models/TargetingAttribute';
 
 const attrTypeMap: Record<number, (value: string) => any> = {
-  0: parseFloat,
-  1: parseInt,
-  2: (v) => v,
+  1: parseFloat,
+  2: parseInt,
+  3: (v) => v,
 };
 
 const listAttrTypeMap: Record<number, (value: string) => any> = {
-  0: (value: string) =>
+  1: (value: string) =>
     `new double[]{${value
       .split(',')
       .map((v) => parseFloat(v))
       .join(',')}}`,
-  1: (value: string) =>
+  2: (value: string) =>
     `new int[]{${value
       .split(',')
       .map((v) => parseInt(v))
       .join(',')}}`,
-  2: (value: string) =>
+  3: (value: string) =>
     `new String[]{${value
       .split(',')
       .map((v) => `"${v}"`)

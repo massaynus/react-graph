@@ -4,7 +4,9 @@ import { toOptionsList } from './toOptions';
 
 export const toFields = (attributes: TargetingAttribute[]): Field[] => {
   const fields: Field[] = attributes
-    .filter((att) => att.pattern === '0|*')
+    .filter(
+      (att) => att.pattern === '0|*' || (att.pattern.trim() === '' && att.attribute_type === 2),
+    )
     .map((att) => ({
       id: att.attribute_key,
       label: att.display_name,
@@ -13,7 +15,7 @@ export const toFields = (attributes: TargetingAttribute[]): Field[] => {
     }));
 
   const moreFields: Field[] = attributes
-    .filter((att) => att.pattern !== '0|*')
+    .filter((att) => !fields.some((f) => att.attribute_key === f.id))
     .map((att) => ({
       id: att.attribute_key,
       label: att.display_name,
