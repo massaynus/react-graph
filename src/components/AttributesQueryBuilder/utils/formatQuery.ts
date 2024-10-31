@@ -49,11 +49,17 @@ export const transformAndFormatQuerytoSpEL = (
         ),
       };
 
-      if (newRule.field.match('{{selectedValues}}')) {
-        newRule.field = newRule.field.replace(/\{\{selectedValues\}\}/g, newRule.value);
+      if (newRule.field.match(/\{\{\s*selectedValues\s*\}\}/)) {
+        newRule.field = newRule.field.replace(/\{\{\s*selectedValues\s*\}\}/g, newRule.value);
         newRule.value = true;
         newRule.operator = '==';
       }
+
+      newRule.field = newRule.field.replace(
+        /\{\{\s*attribute_key\s*\}\}/g,
+        `"${attr.attribute_key}"`,
+      );
+      newRule.field = newRule.field.replace(/\{\{\s*value\s*\}\}/g, newRule.value);
 
       return newRule;
     },

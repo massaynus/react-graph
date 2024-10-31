@@ -44,7 +44,7 @@ export const mockTargetingAttributes: TargetingAttribute[] = [
     pattern_description: 'NEIN|JA',
     pattern_multiselect: null,
     spel_expression:
-      "#mUtils.getMemberAttributeAsNumeric('G00660') or #mUtils.getMemberAttributeAsNumeric({{ attribute_key }})",
+      '(#mUtils.getMemberAttributeAsNumeric({{ attribute_key }}) or #mUtils.getMemberAttributeAsNumeric({{ attribute_key }}))',
   },
   {
     attribute_key: 'MJ0001',
@@ -80,7 +80,7 @@ export const mockTargetingAttributes: TargetingAttribute[] = [
     pattern: '1|2|3|4',
     pattern_description: 'EWE00|EWE06|EWE09|EWE23',
     pattern_multiselect: null,
-    spel_expression: '#mUtils.hasMarketingPermissionGreatThanOrEqual({{ value }})',
+    spel_expression: '#mUtils.hasMarketingPermissionGreatThanOrEqual({{ selectedValues }})',
   },
   {
     attribute_key: 'MJ0005',
@@ -89,6 +89,6 @@ export const mockTargetingAttributes: TargetingAttribute[] = [
     pattern: '1|2|3',
     pattern_description: 'Select1|Select2|Select3',
     pattern_multiselect: true,
-    spel_expression: '#mUtils.IsPartOfSelection({{ value }})',
+    spel_expression: '#mUtils.IsPartOfSelection({{ selectedValues }})',
   },
 ];
