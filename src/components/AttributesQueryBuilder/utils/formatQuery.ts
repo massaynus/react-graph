@@ -80,15 +80,13 @@ export const transformAndFormatQuerytoSpEL = (
       const rg = structuredClone(ruleGroup) as RuleGroupTypeIC;
       console.log(Object.getOwnPropertyDescriptor(rg, 'rules'));
 
+      // Event though the rules are sorted it seems like assigning them to the rules field doesn't change the order
       const newRules = rg.rules
         .map((r1) => r1)
         .sort((r1, r2) => {
           if (typeof r1 !== 'string' && 'field' in r1 && r1.field.includes('event')) return -1;
           if (typeof r2 !== 'string' && 'field' in r2 && r2.field.includes('event')) return 1;
-          else {
-            console.log('SAME', r1, r2);
-            return 0;
-          }
+          else return 0;
         });
 
       return { ...rg, rules: newRules } as RuleGroupTypeIC;
